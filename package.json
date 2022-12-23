@@ -1,5 +1,5 @@
 {
-    "name": "vue_basecomponent",
+    "name": "vue_basecomponent_new",
     "version": "0.30.0",
     "description": "",
     "main": "./index.js",
@@ -28,12 +28,12 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/ChengWaiLim/Vue_BaseComponent.git"
+        "url": "git+https://github.com/hinorpio/vue_basecomponent_new.git"
     },
-    "author": "Cheng Wai Lim",
+    "author": "Hinorpio",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/ChengWaiLim/Vue_BaseComponent/issues"
+        "url": "https://github.com/hinorpio/vue_basecomponent_new/issues"
     },
-    "homepage": "https://github.com/ChengWaiLim/Vue_BaseComponent#readme"
+    "homepage": "https://github.com/hinorpio/vue_basecomponent_new#readme"
 }
