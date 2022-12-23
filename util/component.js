@@ -55,7 +55,7 @@ import {
     NodeMobileBasePagingTable,
     NewStandardDialog,
     AdvancedSearchTitleBar
-} from 'vue_basecomponent'
+} from 'vue_basecomponent_new'
 
 const components = {
     BaseFooter,

@@ -34,8 +34,8 @@
 
 <script>
 import Vue from "vue";
-import {Util} from "vue_basecomponent";
-import {NodeRequest as Request} from "vue_basecomponent";
+import {Util} from "vue_basecomponent_new";
+import {NodeRequest as Request} from "vue_basecomponent_new";
 import config from "@/static/config.json";
 export default {
     components: {Util,Request},

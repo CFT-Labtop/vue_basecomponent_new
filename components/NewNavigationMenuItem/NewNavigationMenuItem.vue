@@ -44,7 +44,7 @@
 </template>
 <script lang="js">
 import Vue from "vue";
-import NewNavigationMenuItem from "vue_basecomponent"
+import NewNavigationMenuItem from "vue_basecomponent_new"
 export default{
     props: {
         menuItem: {
