@@ -1,12 +1,13 @@
 <template>
   <v-dialog v-model="visible" :width="width" :fullscreen="fullscreen" :persistent="persistent" :retain-focus="false" no-click-animation>
     <v-card>
-      <v-toolbar dark color="primary">
-        <v-toolbar-title>{{title}}</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn icon dark @click="handleClose">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
+      <slot name="customToolbar" v-show='customToolbar'></slot>
+      <v-toolbar dark :color="toolbarColor" v-show='!customToolbar'>
+          <v-toolbar-title>{{title}}</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn icon dark @click="handleClose">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
       </v-toolbar>
       <slot></slot>
       <v-card-actions>
@@ -53,7 +54,17 @@ export default{
           type: Boolean,
           required: false,
           default: true
-        }
+        },
+        toolbarColor: {
+          type: String,
+          required: false,
+          default: "primary"
+        },
+        customToolbar: {
+          type: Boolean,
+          required: false,
+          default: false
+        },
     },
     methods: {
         handleClose(){
