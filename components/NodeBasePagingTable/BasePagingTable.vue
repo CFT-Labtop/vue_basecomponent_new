@@ -469,4 +469,5 @@ export default {
   margin-right: .5em
 .base-row
   display: flex
+  align-items: center
 </style>
