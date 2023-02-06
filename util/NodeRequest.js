@@ -26,7 +26,7 @@ class Request {
         })
     }
     static rawDelete(action, params) {
-        return axios.put(config.baseUrl + action, params, {
+        return axios.post(config.baseUrl + action, params, {
             headers: Request.getDefaultHeader(),
             httpsAgent: Request.getAgent()
         })
@@ -35,7 +35,7 @@ class Request {
         if (options == null || options.showLoading == true)
             loading()
         return new Promise((resolve, reject) => {
-            this.rawGet("get/"+ action, params).then(res => {
+            this.rawGet("get/" + action, params).then(res => {
                 if (isError(res)) throw new NetworkError(res)
                 resolve(res.data)
             }).catch(error => {
@@ -81,7 +81,7 @@ class Request {
         if (options == null || options.showLoading == true)
             loading()
         return new Promise((resolve, reject) => {
-            this.rawDelete(action, body).then(res => {
+            this.rawDelete("delete/" + action, body).then(res => {
                 if (isError(res)) throw new NetworkError(res)
                 resolve(res.data)
             }).catch(error => {
@@ -160,4 +160,4 @@ function getErrorMessage(error) {
         message = error.message
     return message
 }
-export default Request
+export default Request
