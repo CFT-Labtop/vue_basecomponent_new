@@ -58,6 +58,11 @@
                 type: String,
                 required: false,
                 default: 'File Type : .jpg, .jpeg, .png '
+            },
+            action: {
+                type: String,
+                required: false,
+                default: "uploadFile"
             }
         },
         computed: {
@@ -77,7 +82,7 @@
         methods: {
             async handleUploadPicture(){
                 try{
-                    var res = await Request.uploadFile("uploadFile",this.selectedFile.raw,2,["image/png", "image/jpg", "image/jpeg", "image/webp"],)
+                    var res = await Request.uploadFile(this.action,this.selectedFile.raw,2,["image/png", "image/jpg", "image/jpeg", "image/webp"],)
                     this.handleSuccess(res.data, this.selectedFile, this.fileList)
                     this.$emit("success")
                 }catch(e){
