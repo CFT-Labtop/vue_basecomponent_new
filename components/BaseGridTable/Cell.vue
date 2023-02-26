@@ -116,7 +116,11 @@ export default {
             }
             else if(this.editConfig.type == 'select'){
                 var selectedOption = this.editConfig.options(this.row).find(f => f.label == this.localValue || f.value == this.localValue)
-                if(selectedOption == null)
+                if(this.localValue == ""){
+                    this.localValue = null
+                    isValid = true
+                }
+                else if(selectedOption == null)
                     isValid = false
                 else
                     this.localValue = selectedOption.value
