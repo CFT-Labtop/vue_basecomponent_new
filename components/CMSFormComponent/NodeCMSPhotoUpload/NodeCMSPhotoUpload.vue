@@ -40,6 +40,15 @@
     export default {
         components: {Util,Request},
         props: {
+            compressInfo:{
+                type: Object,
+                default: () =>({})
+            },
+            needCompress:{
+                type: Boolean,
+                required: false,
+                default: false
+            },
             photoPath: {
                 type: Array,
                 required: true
@@ -80,9 +89,50 @@
             }
         },
         methods: {
+            async compressImage(file, { maxFileSize = 1000000, type = file.type }){
+                // Get as image data
+                const imageBitmap = await createImageBitmap(file);
+
+                // Draw to canvas
+                const canvas = document.createElement('canvas');
+                canvas.width = imageBitmap.width;
+                canvas.height = imageBitmap.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(imageBitmap, 0, 0);
+
+                let scale = 1;
+                if(file.size > maxFileSize){
+                    scale = maxFileSize/file.size
+                }
+                console.log(scale);
+                // Turn into Blob
+                const blob = await new Promise((resolve) =>
+                    canvas.toBlob(resolve, type, scale)
+                );
+
+                // Turn Blob into File
+                return new File([blob], file.name, {
+                    type: blob.type,
+                });
+            },
             async handleUploadPicture(){
+                var compressedFile = null;
+                if(this.needCompress){
+                    const maxFileSize = this.compressInfo.maxFileSizeInMB * 1000000;
+                    if(this.selectedFile.raw.size >= maxFileSize )
+                    compressedFile = await this.compressImage(this.selectedFile.raw, {
+                        maxFileSize: maxFileSize,
+                        type: 'image/jpeg',
+                    });
+                }
                 try{
-                    var res = await Request.uploadFile(this.action,this.selectedFile.raw,2,["image/png", "image/jpg", "image/jpeg", "image/webp"],)
+                    var res = await Request.uploadFile(this.action,compressedFile == null? this.selectedFile.raw: compressedFile,2,["image/png", "image/jpg", "image/jpeg", "image/webp"],)
+                    if(this.needCompress){
+                        var compressedBlobUrl = window.URL.createObjectURL(compressedFile);
+                        this.selectedFile.url = compressedBlobUrl;
+                        this.selectedFile.raw = compressedFile;
+                        this.selectedFile.size = compressedFile.size;
+                    }
                     this.handleSuccess(res.data, this.selectedFile, this.fileList)
                     this.$emit("success")
                 }catch(e){
