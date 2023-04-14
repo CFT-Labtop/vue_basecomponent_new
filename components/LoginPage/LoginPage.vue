@@ -5,7 +5,7 @@
       <div class="header mt-12" text-align="center">
         <img :style="{width: logoWidth}" src="~@/assets/company_logo.png"/>
       </div>
-      <v-form @submit.prevent="handleLogin" style="width:100%">
+      <v-form @submit.prevent="handleLogIn" style="width:100%">
         <div class="space-between-row">
           <div></div>
           <login-container-box class="login-container-box" :title="$t('Login')">
@@ -13,7 +13,7 @@
               <login-input class="mb-8" :placeholder="$t('Username')" v-model="data.loginName"></login-input>
               <login-input type="password" class="mb-12" :placeholder="$t('Password')" v-model="data.password"></login-input>
             </div>
-            <v-btn type="submit" dark round>{{$t('Login')}}</v-btn>
+            <v-btn type="submit" dark>{{$t('Login')}}</v-btn>
             <!-- <el-button @click="handleLogIn" round>{{$t('Login')}}</el-button> -->
           </login-container-box>
           <div></div>
