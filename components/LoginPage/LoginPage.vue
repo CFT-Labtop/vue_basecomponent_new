@@ -77,73 +77,73 @@ export default Vue.extend({
 <style scoped lang="sass">
 @import "@/static/variables.scss"
 .background
-position: absolute
-width: 100%
-height: 100%
-background: white
+  position: absolute
+  width: 100%
+  height: 100%
+  background: white
 .el-button
-background: $main-theme
-color: white
-width: 60%
+  background: $main-theme
+  color: white
+  width: 60%
 .v-btn
-background: $main-theme
-color: white
-width: 60%
-border-radius: 30px
+  background: $main-theme
+  color: white
+  width: 60%
+  border-radius: 30px
 .city-image
-width: 100%
-height: 100%
-background-image: url("~@/assets/background1.jpg")
-background-position: center center
-background-repeat: no-repeat
-background-size: cover
+  width: 100%
+  height: 100%
+  background-image: url("~@/assets/background1.jpg")
+  background-position: center center
+  background-repeat: no-repeat
+  background-size: cover
 .center-item
-display: flex
-justify-content: space-between
-align-items: center
-flex-direction: column
+  display: flex
+  justify-content: space-between
+  align-items: center
+  flex-direction: column
 
 .row
-display: flex
-justify-content: center
-align-items: center
-height: 100%
+  display: flex
+  justify-content: center
+  align-items: center
+  height: 100%
 .container-left
-height: 100%
-width: 40%
+  height: 100%
+  width: 40%
 .container-right
-height: 100%
-width: 60%
+  height: 100%
+  width: 60%
 .blue-layer
-color: white
-height: 100%
-font-family: sans-serif
-font-weight: bold
-background: $main-theme
-display: flex
-flex-direction: column
-justify-content: center
-text-align: center
-animation: fade-in 5s ease
+  color: white
+  height: 100%
+  font-family: sans-serif
+  font-weight: bold
+  background: $main-theme
+  display: flex
+  flex-direction: column
+  justify-content: center
+  text-align: center
+  animation: fade-in 5s ease
 h2
   font-size: 2rem
 h1
   font-size: 2.6rem
 .header
-width: 100%
-justify-content: center
-display: flex
+  width: 100%
+  justify-content: center
+  display: flex
 .footer
-font-size: 1rem
-color: rgba(157,157,218,1)
-font-family: sans-serif
-font-weight: bold
-text-align: right
+  font-size: 1rem
+  color: rgba(157,157,218,1)
+  font-family: sans-serif
+  font-weight: bold
+  text-align: right
 .login-container-box
-width: 60%
-height: 18em
-position: relative
-animation: login-container-box-animation 2s ease
+  width: 60%
+  height: 18em
+  position: relative
+  animation: login-container-box-animation 2s ease
 .login-input-div
   width: 76%
   display: flex
@@ -151,10 +151,10 @@ animation: login-container-box-animation 2s ease
   justify-content: center
 
 @keyframes login-container-box-animation
-0%
-  left: -100%
-100%
-  left: 0%
+  0%
+    left: -100%
+  100%
+    left: 0%
 
 
 
