@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="visible" :width="width" :fullscreen="fullscreen" :persistent="persistent" :retain-focus="false" no-click-animation>
+  <v-dialog v-model="visible" scrollable :width="width" :fullscreen="fullscreen" :persistent="persistent" :retain-focus="false" no-click-animation>
     <v-card>
       <slot name="customToolbar" v-show='customToolbar'></slot>
       <v-toolbar dark :color="toolbarColor" v-show='!customToolbar'>
@@ -9,7 +9,9 @@
             <v-icon>mdi-close</v-icon>
           </v-btn>
       </v-toolbar>
-      <slot></slot>
+      <v-card-text>
+        <slot></slot>
+      </v-card-text>
       <v-card-actions>
         <slot name="actionSlot"></slot>
       </v-card-actions>
