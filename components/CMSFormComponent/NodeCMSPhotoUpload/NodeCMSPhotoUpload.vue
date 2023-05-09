@@ -117,17 +117,16 @@
             },
             async handleUploadPicture(){
                 var compressedFile = null;
-                if(this.needCompress){
-                    const maxFileSize = this.compressInfo.maxFileSizeInMB * 1000000;
-                    if(this.selectedFile.raw.size >= maxFileSize )
-                    compressedFile = await this.compressImage(this.selectedFile.raw, {
-                        maxFileSize: maxFileSize,
-                        type: 'image/jpeg',
-                    });
-                }
+                const maxFileSize = this.compressInfo.maxFileSizeInMB * 1000000;
+                    if(this.needCompress && this.selectedFile.raw.size >= maxFileSize ){
+                        compressedFile = await this.compressImage(this.selectedFile.raw, {
+                            maxFileSize: maxFileSize,
+                            type: 'image/jpeg',
+                        });
+                    }
                 try{
                     var res = await Request.uploadFile(this.action,compressedFile == null? this.selectedFile.raw: compressedFile,2,["image/png", "image/jpg", "image/jpeg", "image/webp"],)
-                    if(this.needCompress){
+                    if(this.needCompress && this.selectedFile.raw.size >= maxFileSize){
                         var compressedBlobUrl = window.URL.createObjectURL(compressedFile);
                         this.selectedFile.url = compressedBlobUrl;
                         this.selectedFile.raw = compressedFile;
