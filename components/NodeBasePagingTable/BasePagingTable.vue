@@ -76,7 +76,7 @@
     <div class="pagination-wrapper">
       <el-pagination small class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total, prev, pager, next, sizes, jumper" :total="dataListForShowLength" :page-sizes="[20, 50, 100, 500]" :page-size="pageSize" :current-page.sync="currentPage" ></el-pagination>
     </div>
-    <advanced-search-dialog-paging :pageSize="this.pageSize" :page="1" :sort="this.currentSortProp" :sortOrder="this.currentSortOrder" ref="advancedSearchDialog" :tableName="tableName" :joinClass="joinClass" @confirm="handleAdvancedSearchConfirm" :columnList="columnList" :computed="computed" :whereOperation="whereOperation" :visible.sync="visibleAdvancedSearchDialog">
+    <advanced-search-dialog-paging :pageSize="this.pageSize" :page="1" :sort="this.currentSortProp" :sortOrder="this.currentSortOrder" ref="advancedSearchDialog" :tableName="tableName" :joinClass="joinClass" @getAllAdvancedSearch="handlegetAllAdvancedSearch" @confirm="handleAdvancedSearchConfirm" :columnList="columnList" :computed="computed" :whereOperation="whereOperation" :visible.sync="visibleAdvancedSearchDialog">
       <template v-for="(column, index) in columnList" :slot="'advancedSearchCustom.' + column.key" slot-scope="scope">
         <slot :name="'advancedSearchCustom.' + column.key" :searchFilterSet="scope.searchFilterSet" :whereOperation="scope.whereOperation" :computed="scope.computed"></slot>
       </template> 
@@ -385,7 +385,16 @@ export default {
           this.dataList = result.data[this.tableName.toString()].data
           this.dataListForShowLength = result.data[this.tableName.toString()].totalRow
         }
-        this.$emit("refreshCallback")
+        // var newParameters = Object.assign({
+        //   search: this.confirmedSearch,
+        //   sortProp: this.currentSortProp,
+        //   sort: this.currentSortOrder,
+        //   joinClass: this.joinClass,
+        //   computed: this.computed,
+        //   advancedSearch: this.searchFilterSet,
+        // }, this.parameters)
+        // var result = await Request.get(this.tableName, newParameters, {showLoading: false});
+        // this.$emit("refreshCallback",result.data[this.tableName.toString()])
       } catch (error) {
         console.log(error)
         this.dataList = [];
@@ -434,6 +443,9 @@ export default {
     },
     handleSelectAll(selection){
       this.$emit("select-all", selection)
+    },
+    handlegetAllAdvancedSearch(data){
+      this.$emit("getAllAdvancedSearch", data)
     }
   },
   computed: {

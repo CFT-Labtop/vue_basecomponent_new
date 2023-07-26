@@ -181,6 +181,20 @@ export default {
                 console.log(res);
                 this.$emit("confirm", res.data[this.tableName].data, res.data[this.tableName].totalRow, searchFilterSet)
                 this.$emit('update:visible', false)
+
+                var newParameters = {
+                    advancedSearch:  searchFilterSet,
+                    joinClass: this.joinClass,
+                    sort: this.sort,
+                    sortOrder: this.sortOrder
+                }
+                if(this.whereOperation.length > 0)
+                newParameters.whereOperation = this.whereOperation
+                if(this.computed.length > 0)
+                newParameters.computed = this.computed
+                var res = await Request.post("get/" + this.tableName, newParameters)
+                console.log(res);
+                this.$emit('getAllAdvancedSearch',res.data[this.tableName])
             }catch(e){
                 this.alert(e)
             }
