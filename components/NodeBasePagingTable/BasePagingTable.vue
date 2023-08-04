@@ -242,7 +242,11 @@ export default {
       type: String,
       required: false,
       default: "OR"
-    }
+    },
+    showTableLoading: {
+      type: Boolean,
+      default: true,
+    },
   },
   mounted() {
     this.handleDefaultSorting()
@@ -349,7 +353,9 @@ export default {
         this.dataList = this.paging(this.originalDataList);
     },
     async handleRefresh(isDefaultSorting = true) {
-      Util.loading();
+      if(this.showTableLoading){
+        Util.loading();
+      }
       try {
         var parameters = Object.assign({
           // paging: {page: this.currentPage, pageSize: this.pageSize, search: this.confirmedSearch, sort: {order: this.currentSortOrder, prop:this.currentSortProp }},
@@ -399,7 +405,9 @@ export default {
         console.log(error)
         this.dataList = [];
       }finally{
-        Util.loading().close();
+        if(this.showTableLoading){
+          Util.loading().close();
+        }
       }
     },
     paging(dataList){
