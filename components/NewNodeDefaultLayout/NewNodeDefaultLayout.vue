@@ -35,9 +35,9 @@
                 <icon-button @click="$router.push({path:'/private/my_account'})" class="mr-8" color="white" icon="mi-person"/>
             </el-tooltip>
             <el-button class="text-button mr-8" type="text" :style="{'color':'white'}" >{{getUserName()}}</el-button>
-            <el-tooltip class="item" effect="dark" content="Logout" placement="top-start">
+            <!-- <el-tooltip class="item" effect="dark" content="Logout" placement="top-start">
                 <icon-button @click="handleLogOut" class="mr-8" color="white" icon="mi-exit-to-app"/>
-            </el-tooltip>
+            </el-tooltip> -->
         </div>
       </div>
     </v-app-bar>
