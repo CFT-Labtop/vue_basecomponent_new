@@ -300,8 +300,8 @@ export default {
   methods: {
     testProductA() {
       const today = moment().format("YYYY-MM-DD")
-    this.rawQueryData = "SELECT * FROM ( SELECT *, IF( gs_end_date < " + "'" + today + "'" + " AND gs_indefinitely = 0, FALSE, IF( gs_show = 1, IF( website_display_end_date < " + "'" + today + "'" + ", TRUE, IF( website_display_start_date >= " + "'" + today + "'" + " AND website_display_end_date >= " + "'" + today + "'" + ", TRUE, IF( " + "'" + today + "'" + " BETWEEN website_display_start_date AND website_display_end_date, TRUE, FALSE ) ) ), FALSE ) ) AS isShow FROM Product ) AS p WHERE p.isShow = TRUE;"
-    this.handleRefresh()
+      this.rawQueryData = "SELECT * FROM ( SELECT *, IF( gs_end_date < " + "'" + today + "'" + " AND gs_indefinitely = 0, TRUE, IF( gs_show = 1, IF( website_display_end_date < " + "'" + today + "'" + ", TRUE, IF( website_display_start_date >= " + "'" + today + "'" + " AND website_display_end_date >= " + "'" + today + "'" + ", TRUE, IF( " + "'" + today + "'" + " BETWEEN website_display_start_date AND website_display_end_date, TRUE, FALSE ) ) ), FALSE ) ) AS isShow FROM Product ) AS p WHERE p.isShow = TRUE;"
+      this.handleRefresh()
     },
     testProductB() {
       const today = moment().format("YYYY-MM-DD")
