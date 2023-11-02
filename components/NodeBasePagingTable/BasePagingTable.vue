@@ -22,6 +22,11 @@
               </div>
               <slot name="title"/>
             </div>
+            <!-- todo -->
+            <el-button v-if="rawQuery && tableName =='Product'" type="primary" @click="testProductA">{{buttonA||'unset buttonA name'}}</el-button>
+            <el-button v-if="rawQuery && tableName =='Product'" type="primary" @click="testProductB" >{{buttonB||'unset buttonB name'}}</el-button>
+            <el-button v-if="rawQuery && tableName =='Product'" type="primary" @click="testProductC" >{{buttonC||'unset buttonC name'}}</el-button>
+            <!-- todo -->
             <div class="search-bar">
               <el-tooltip v-if="isAdvancedSearch" class="item" effect="dark" content="Advanced Search" placement="top-start">
                 <el-button class="mr-4 advanced-search-button" icon="el-icon-zoom-in" circle @click="handleOpenAdvancedSearchDialog"></el-button>
@@ -87,13 +92,34 @@
 <script>
 import { Util } from "vue_basecomponent_new";
 import {NodeRequest as Request} from "vue_basecomponent_new";
-import AdvancedSearchDialogPaging from "./AdvancedSearchDialogPaging"
+import AdvancedSearchDialogPaging from "./AdvancedSearchDialogPaging";
+import moment from 'moment';
 
 export default {
   components: {
     AdvancedSearchDialogPaging
   },
   props: {
+    buttonA:{
+      type: String,
+      required: false,
+      default: null,
+    },
+    buttonB:{
+      type: String,
+      required: false,
+      default: null,
+    },
+    buttonC:{
+      type: String,
+      required: false,
+      default: null,
+    },
+    rawQuery:{
+      type: String,
+      required: false,
+      default: null,
+    },
     tableStyle: {
       type: String,
       required: false,
@@ -249,11 +275,13 @@ export default {
     },
   },
   mounted() {
+    this.rawQueryData = this.rawQuery
     this.handleDefaultSorting()
     this.handleRefresh();
   },
   data() {
     return {
+      rawQueryData:null,
       search: "",
       confirmedSearch: "",
       currentPage: 1,
@@ -270,6 +298,20 @@ export default {
     };
   },
   methods: {
+    testProductA() {
+      const today = moment().format("YYYY-MM-DD")
+    this.rawQueryData = "SELECT * FROM ( SELECT *, IF( gs_end_date < " + "'" + today + "'" + " AND gs_indefinitely = 0, FALSE, IF( gs_show = 1, IF( website_display_end_date < " + "'" + today + "'" + ", TRUE, IF( website_display_start_date >= " + "'" + today + "'" + " AND website_display_end_date >= " + "'" + today + "'" + ", TRUE, IF( " + "'" + today + "'" + " BETWEEN website_display_start_date AND website_display_end_date, TRUE, FALSE ) ) ), FALSE ) ) AS isShow FROM Product ) AS p WHERE p.isShow = TRUE;"
+    this.handleRefresh()
+    },
+    testProductB() {
+      const today = moment().format("YYYY-MM-DD")
+      this.rawQueryData = "SELECT * FROM ( SELECT *, IF( gs_end_date < " + "'" + today + "'" + " AND gs_indefinitely = 0, TRUE, IF( gs_show = 1, IF( website_display_end_date < " + "'" + today + "'" + ", TRUE, IF( website_display_start_date >= " + "'" + today + "'" + " AND website_display_end_date >= " + "'" + today + "'" + ", TRUE, IF( " + "'" + today + "'" + " BETWEEN website_display_start_date AND website_display_end_date, TRUE, FALSE ) ) ), FALSE ) ) AS isShow FROM Product ) AS p WHERE p.isShow = FALSE;"
+      this.handleRefresh()
+    },
+    testProductC() {
+      this.rawQueryData = null
+      this.handleRefresh()
+    },
     getExportParameters(){
       var parameters = {}
       if(this.joinClass.length > 0)
@@ -367,6 +409,7 @@ export default {
           joinClass: this.joinClass,
           computed: this.computed,
           advancedSearch: this.searchFilterSet,
+          rawQuery: this.rawQueryData||null
         }, this.parameters)
         if(this.whereCondition.length > 0)
           parameters["whereCondition"] = this.whereCondition
@@ -387,7 +430,7 @@ export default {
           })
         }else{
           var result = await Request.get(this.tableName, parameters, {showLoading: false});
-          console.log(result);
+          console.log('ddddddddddddddd',result);
           this.dataList = result.data[this.tableName.toString()].data
           this.dataListForShowLength = result.data[this.tableName.toString()].totalRow
         }
