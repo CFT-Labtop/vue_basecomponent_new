@@ -23,9 +23,9 @@
               <slot name="title"/>
             </div>
             <!-- todo -->
-            <el-button v-if="rawQuery && tableName =='Product'"  @click="testProductA">{{buttonA||'unset buttonA name'}}</el-button>
-            <el-button v-if="rawQuery && tableName =='Product'"  @click="testProductB" >{{buttonB||'unset buttonB name'}}</el-button>
-            <el-button v-if="rawQuery && tableName =='Product'"  @click="testProductC" >{{buttonC||'unset buttonC name'}}</el-button>
+            <el-button :type="onClickA ? 'primary' : 'danger'" v-if="rawQuery && tableName =='Product'"  @click="testProductA">{{buttonA||'unset buttonA name'}}</el-button>
+            <el-button :type="onClickB ? 'primary' : 'danger'" v-if="rawQuery && tableName =='Product'"  @click="testProductB" >{{buttonB||'unset buttonB name'}}</el-button>
+            <el-button :type="onClickC ? 'primary' : 'danger'" v-if="rawQuery && tableName =='Product'"  @click="testProductC" >{{buttonC||'unset buttonC name'}}</el-button>
             <!-- todo -->
             <div class="search-bar">
               <el-tooltip v-if="isAdvancedSearch" class="item" effect="dark" content="Advanced Search" placement="top-start">
@@ -281,6 +281,9 @@ export default {
   },
   data() {
     return {
+      onCliclA:false,
+      onCliclB:false,
+      onCliclC:false,
       rawQueryData:null,
       search: "",
       confirmedSearch: "",
@@ -299,16 +302,25 @@ export default {
   },
   methods: {
     testProductA() {
+      this.onClickB = false
+      this.onClickC = false
+      this.onClickA = !this.onClickA
       const today = moment().format("YYYY-MM-DD")
       this.rawQueryData = "SELECT * FROM ( SELECT *, IF( gs_end_date < " + "'" + today + "'" + " AND gs_indefinitely = 0, TRUE, IF( gs_show = 1, IF( website_display_end_date < " + "'" + today + "'" + ", TRUE, IF( website_display_start_date >= " + "'" + today + "'" + " AND website_display_end_date >= " + "'" + today + "'" + ", TRUE, IF( " + "'" + today + "'" + " BETWEEN website_display_start_date AND website_display_end_date, TRUE, FALSE ) ) ), FALSE ) ) AS isShow FROM Product ) AS p WHERE p.isShow = TRUE;"
       this.handleRefresh()
     },
     testProductB() {
+      this.onClickC = false
+      this.onClickA = false
+      this.onClickB = !this.onClickB
       const today = moment().format("YYYY-MM-DD")
       this.rawQueryData = "SELECT * FROM ( SELECT *, IF( gs_end_date < " + "'" + today + "'" + " AND gs_indefinitely = 0, TRUE, IF( gs_show = 1, IF( website_display_end_date < " + "'" + today + "'" + ", TRUE, IF( website_display_start_date >= " + "'" + today + "'" + " AND website_display_end_date >= " + "'" + today + "'" + ", TRUE, IF( " + "'" + today + "'" + " BETWEEN website_display_start_date AND website_display_end_date, TRUE, FALSE ) ) ), FALSE ) ) AS isShow FROM Product ) AS p WHERE p.isShow = FALSE;"
       this.handleRefresh()
     },
     testProductC() {
+      this.onClickB = false
+      this.onClickA = false
+      this.onClickC = !this.onClickC
       this.rawQueryData = null
       this.handleRefresh()
     },
