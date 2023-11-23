@@ -23,9 +23,9 @@
               <slot name="title"/>
             </div>
             <!-- todo -->
-            <el-button v-if="rawQuery && tableName =='Product'" type="primary" @click="testProductA">{{buttonA||'unset buttonA name'}}</el-button>
-            <el-button v-if="rawQuery && tableName =='Product'" type="primary" @click="testProductB" >{{buttonB||'unset buttonB name'}}</el-button>
-            <el-button v-if="rawQuery && tableName =='Product'" type="primary" @click="testProductC" >{{buttonC||'unset buttonC name'}}</el-button>
+            <el-button v-if="rawQuery && tableName =='Product'"  @click="testProductA">{{buttonA||'unset buttonA name'}}</el-button>
+            <el-button v-if="rawQuery && tableName =='Product'"  @click="testProductB" >{{buttonB||'unset buttonB name'}}</el-button>
+            <el-button v-if="rawQuery && tableName =='Product'"  @click="testProductC" >{{buttonC||'unset buttonC name'}}</el-button>
             <!-- todo -->
             <div class="search-bar">
               <el-tooltip v-if="isAdvancedSearch" class="item" effect="dark" content="Advanced Search" placement="top-start">
