@@ -27,6 +27,35 @@
             <el-button :type="onClickB ? 'primary' : ''" v-if="rawQuery && tableName =='Product'"  @click="testProductB" >{{buttonB||'unset buttonB name'}}</el-button>
             <el-button :type="onClickC ? 'primary' : ''" v-if="rawQuery && tableName =='Product'"  @click="testProductC" >{{buttonC||'unset buttonC name'}}</el-button>
             <!-- todo -->
+            <!-- todo -->
+            <div class="search-bar">
+              <!-- <el-input :style="{width: '10em'}" class="search-input" v-model="filterByCol" size="medium" :placeholder="$t('Keyword Search')"> -->
+               <!-- <el-button slot="append" size="medium" icon="el-icon-search" @click="handleEnterChange"></el-button> -->
+                <!-- <new-c-m-s-selector  :label="$t('Delivery Status')"  v-model="filterByCol" :options="handleFilterByColOptions"  :labelWidth="cms_label_width" /> -->
+                 <!-- </el-input>  -->
+                 <el-select
+                    v-model="filterByCol"
+                    class="m-2"
+                    placeholder="Select"
+                    size="large"
+                    style="width: 240px"
+                    @click="handleFilterByCol"
+                  >
+                    <el-option
+                      v-for="item in colOption"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    />
+                  </el-select>
+
+             <el-input :style="{width: '10em'}" class="search-input" v-model="filterByColKey" size="medium" :placeholder="$t('Keyword Search')">
+               <el-button slot="append" size="medium" icon="el-icon-search" @click="handleFilterByCol"></el-button>
+             </el-input>
+             <slot name="searchSlot"/>
+           </div>
+           <!-- todo -->
+
             <div class="search-bar">
               <el-tooltip v-if="isAdvancedSearch" class="item" effect="dark" content="Advanced Search" placement="top-start">
                 <el-button class="mr-4 advanced-search-button" icon="el-icon-zoom-in" circle @click="handleOpenAdvancedSearchDialog"></el-button>
@@ -278,6 +307,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    // filterByCol: {
+    //   type: Boolean,
+    //   default: true,
+    // },
   },
    mounted() {
     this.rawQueryData = this.rawQuery
@@ -286,6 +319,7 @@ export default {
      this.testProductA()
        }else
        this.handleRefresh();
+      this.handleFilterByColOptions()
   },
   data() {
     return {
@@ -307,6 +341,10 @@ export default {
       visibleAdvancedSearchDialog: false,
       currentSortOrder: "ascending",
       searchFilterSet: {},
+      filterByCol:null,
+      filterByColKey:null,
+      filterByColQuery:null,
+      colOptions:[]
     };
   },
   methods: {
@@ -352,6 +390,7 @@ export default {
       return parameters
       },
     handleEnterChange() {
+      console.log(this.search);
       // if (this.confirmedSearch != this.search){
         this.confirmedSearch = this.search;
         this.currentPage = 1
@@ -360,6 +399,32 @@ export default {
         this.handleRefresh()
       // }
     },
+    //todo
+    handleFilterByColOptions(){
+      // console.log('colOptions',this.visibleColumn[0].label);
+      const option  = JSON.parse(JSON.stringify(this.visibleColumn))
+      this.colOption =  option.map(f => {
+                return {
+                    label: f.label,
+                    value: f.prop
+                }
+            })
+        },
+    //todo
+    //todo
+    handleFilterByCol(){
+      // if(this.filterByCol&&this.filterByColKey)
+      //   this.filterByColQuery = {filterByCol:this.filterByCol,filterByColKey:this.filterByColKey}
+      // else{
+      //   this.filterByColQuery = null
+      // }
+        this.confirmedSearch = this.search;
+        this.currentPage = 1
+        this.$refs.advancedSearchDialog.searchFilterSet = this.$refs.advancedSearchDialog.initSearchFilterSet()
+        this.searchFilterSet = {}
+        this.handleRefresh()
+    },
+     //todo
     handleDefaultSorting() {
       if (this.defaultSortProp != null && this.defaultSortProp != "") {
         if(this.isServerSidePaging){
@@ -430,8 +495,14 @@ export default {
           joinClass: this.joinClass,
           computed: this.computed,
           advancedSearch: this.searchFilterSet,
-          rawQuery: this.rawQueryData||null
+          rawQuery: this.rawQueryData||null,
         }, this.parameters)
+        //todo
+        if(this.filterByCol&&this.filterByColKey)
+          parameters["filterByCol"] =this.filterByCol
+          parameters["filterByColKey"] =this.filterByColKey
+
+        //todo
         if(this.whereCondition.length > 0)
           parameters["whereCondition"] = this.whereCondition
         if(this.whereOperation.length > 0)
@@ -522,6 +593,7 @@ export default {
   },
   computed: {
     visibleColumn: function(){
+      console.log('visibleColumn',this.columnList.filter(f => !f.isHidden || false));
       return this.columnList.filter(f => !f.isHidden || false)
     }
   },
