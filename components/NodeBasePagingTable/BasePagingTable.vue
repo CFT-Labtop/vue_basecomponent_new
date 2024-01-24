@@ -28,6 +28,9 @@
             <el-button :type="onClickC ? 'primary' : ''" v-if="rawQuery && tableName =='Product'"  @click="testProductC" >{{buttonC||'unset buttonC name'}}</el-button>
             <!-- todo -->
             <!-- todo -->
+            <el-button v-if="buttonArray.length>0"  v-for="(b,index) in buttonArray" :style="handleButtonArrayStyle(b)" @click="buttonArrayClick(b,index)">{{b.name}} </el-button>
+            <!-- todo -->
+            <!-- todo -->
             <div class="search-bar">
               <!-- <el-input :style="{width: '10em'}" class="search-input" v-model="filterByCol" size="medium" :placeholder="$t('Keyword Search')"> -->
                <!-- <el-button slot="append" size="medium" icon="el-icon-search" @click="handleEnterChange"></el-button> -->
@@ -307,10 +310,13 @@ export default {
       type: Boolean,
       default: true,
     },
-    // filterByCol: {
-    //   type: Boolean,
-    //   default: true,
-    // },
+    buttonArray: {
+      type: Array,
+      requried: false,
+      default: function(){
+        return []
+      },
+    },
   },
    mounted() {
     this.rawQueryData = this.rawQuery
@@ -320,6 +326,7 @@ export default {
        }else
        this.handleRefresh();
       this.handleFilterByColOptions()
+      this.initArrayButton(this.buttonArray)
   },
   data() {
     return {
@@ -348,6 +355,40 @@ export default {
     };
   },
   methods: {
+    initArrayButton(buttonArray){
+      buttonArray.forEach(b => {
+        b['clicked']=false
+      });
+    },
+    handleButtonArrayStyle(button){
+      if(button){
+        if(button['clicked']==true)
+        return button.onClickStyle
+       else if(button['clicked']==false){
+        return button.style
+       }else{
+        return button.style
+      }
+      }
+     
+     
+    },
+    handleButtonArrayClickedOrNot( buttonArray,index){
+    for (let i = 0; i < buttonArray.length; i++) {
+      if(i==index)
+        buttonArray[i]['clicked'] = true
+      else
+        buttonArray[i]['clicked'] = false
+    }
+    console.log(buttonArray);
+ 
+    },
+    buttonArrayClick(button,index){
+      console.log(button);
+      this.rawQueryData = button.rawQuery
+      this.handleButtonArrayClickedOrNot(this.buttonArray,index)
+      this.handleRefresh()
+    },
     testProductA() {
       this.onClickB = false
       this.onClickC = false
@@ -390,7 +431,7 @@ export default {
       return parameters
       },
     handleEnterChange() {
-      console.log(this.search);
+      // console.log(this.search);
       // if (this.confirmedSearch != this.search){
         this.confirmedSearch = this.search;
         this.currentPage = 1
@@ -501,7 +542,6 @@ export default {
         if(this.filterByCol&&this.filterByColKey)
           parameters["filterByCol"] =this.filterByCol
           parameters["filterByColKey"] =this.filterByColKey
-
         //todo
         if(this.whereCondition.length > 0)
           parameters["whereCondition"] = this.whereCondition
